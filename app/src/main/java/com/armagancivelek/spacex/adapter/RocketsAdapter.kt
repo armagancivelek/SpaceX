@@ -68,10 +68,22 @@ class RocketsAdapter : RecyclerView.Adapter<RocketsAdapter.RocketViewHolder>() {
             placeholderProgressBar(holder.itemView.context)
         )
 
+        holder.binding.imageRocket.setOnClickListener {
+            onItemClik?.invoke(differ.currentList[position].rocket_id)
 
+        }
+
+
+    }
+
+    private var onItemClik: ((String) -> Unit)? = null
+
+    fun setOnClickListener(listener: (String) -> Unit) {
+        onItemClik = listener
     }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
+
 }

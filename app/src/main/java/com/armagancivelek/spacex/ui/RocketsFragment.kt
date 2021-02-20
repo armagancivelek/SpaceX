@@ -6,6 +6,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.armagancivelek.spacex.R
 import com.armagancivelek.spacex.adapter.RocketsAdapter
@@ -25,6 +26,20 @@ class RocketsFragment : Fragment(R.layout.fragment_rockets) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
         observeLiveData()
+        eventHandler()
+
+    }
+
+    private fun eventHandler() {
+        rocketsAdapter.setOnClickListener { rocketId ->
+            val bundle = Bundle().apply {
+                putString("rocketId", rocketId)
+            }
+
+
+
+            findNavController().navigate(R.id.action_rocketsFragment_to_detailFragment, bundle)
+        }
 
     }
 

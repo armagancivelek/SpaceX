@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity() {
                 delay(2000)
                 withContext(Dispatchers.Main)
                 {
-                    setContentView(R.layout.activity_main)
+
+                setContentView(R.layout.activity_main)
                 }
             }
 
