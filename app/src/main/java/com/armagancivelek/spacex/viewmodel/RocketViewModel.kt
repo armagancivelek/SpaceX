@@ -30,7 +30,6 @@ class RocketViewModel(application: Application) : AndroidViewModel(application) 
 
         } catch (e: Exception) {
 
-            Log.d("ABC", "Hata: ${e}")
 
 
         }
@@ -42,7 +41,9 @@ class RocketViewModel(application: Application) : AndroidViewModel(application) 
         try {
 
             response = repo.getRoockets()
+            Log.d("ABC", "response :${response}")
             rockets.postValue(handleRocketResponse(response))
+
 
 
         } catch (e: Exception) {
@@ -60,11 +61,11 @@ class RocketViewModel(application: Application) : AndroidViewModel(application) 
 
 
             response.message().toString().contains("timeout") -> NetworkResult.Error(
-                "Zaman aşımı",
+                "Time out",
                 response.body()
             )
 
-            else -> NetworkResult.Error("hata", response.body())
+            else -> NetworkResult.Error("Error", response.body())
         }
 
     private fun handleRocketResponse(response: Response<List<RocketResponse>>): NetworkResult<List<RocketResponse>> =

@@ -74,5 +74,7 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:4.11.0"
 //Circle indicator
     implementation 'me.relex:circleindicator:2.1.6'
+//animasyon
+    implementation 'com.airbnb.android:lottie:3.6.1'
 
 }

@@ -12,6 +12,7 @@ import com.armagancivelek.spacex.databinding.FragmentDetailBinding
 import com.armagancivelek.spacex.model.RocketResponse
 import com.armagancivelek.spacex.viewmodel.NetworkResult
 import com.armagancivelek.spacex.viewmodel.RocketViewModel
+import kotlinx.coroutines.*
 
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -24,7 +25,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
-        observeLiveData()
+        GlobalScope.launch {
+            delay(2700)
+            withContext(Dispatchers.Main) {
+                observeLiveData()
+            }
+
+        }
 
 
     }
@@ -37,6 +44,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 is NetworkResult.Success -> {
                     hideProgressBar()
                     response.let { response ->
+                        binding.animationView.visibility = View.INVISIBLE
 
                         val imageList = response.data.flickr_images
 
@@ -87,7 +95,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun setDetail(response: RocketResponse) {
         binding.tvRocketName.text = "${response.rocket_name}"
-        binding.status.text = "Status ${response.active}"
+        binding.status.text = if (response.active) "Status : Aktif" else "Status : Passive"
         binding.successRate.text = "Success rate pct: %${response.success_rate_pct}"
         binding.company.text = "Company : ${response.company}"
         binding.country.text = "Country : ${response.country}"
