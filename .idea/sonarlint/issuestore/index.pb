@@ -74,3 +74,19 @@ F
 app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
 t
 Dapp/src/main/java/com/armagancivelek/spacex/adapter/SliderAdapter.kt,2\9\29e0712c76c0b6079be9cc520f4d02b16a2b9dc6
+V
+&app/src/main/res/drawable/title_bg.xml,0\5\0526ef52242254ba2b907b10cb54fe92f6a1f216
+[
++app/src/main/res/layout/item_slider_row.xml,6\8\68702a6d49d67d057b4316755c68609bc422e2aa
+R
+"app/src/main/res/values/colors.xml,9\6\969faa2a5d9f5e8390e958d2c07f2cfd54676e6b
+W
+'app/src/main/res/anim/slide_in_left.xml,1\d\1d36ebec16ad94763db5ede623941c97e2bd0185
+X
+(app/src/main/res/anim/slide_in_right.xml,9\2\9228a7462534b2939dd6114fc12c58212458f530
+X
+(app/src/main/res/anim/slide_out_left.xml,f\1\f13772ab7e9e3f9d2ded5f58ea3d9f5fdf35626a
+Y
+)app/src/main/res/anim/slide_out_right.xml,2\c\2cbcd465c47013a9dbc291d35e93819539996728
+P
+ app/src/main/res/raw/rocket.json,3\6\364e216b865fec9ed23bb05e33e1a55ed2704505

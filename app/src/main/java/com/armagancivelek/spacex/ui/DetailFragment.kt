@@ -20,19 +20,35 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var sliderAdapter: SliderAdapter
     private val args: DetailFragmentArgs by navArgs()
+    private lateinit var job: Job
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init(view)
-        GlobalScope.launch {
-            delay(2700)
-            withContext(Dispatchers.Main) {
-                observeLiveData()
-            }
 
+        init(view)
+
+
+        CoroutineScope(Dispatchers.Default).launch {
+
+            job = launch {
+                delay(3000)
+                withContext(Dispatchers.Main) {
+
+
+                    observeLiveData()
+                }
+            }
         }
 
+
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (job.isActive)
+            job.cancel()
 
     }
 
@@ -44,17 +60,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 is NetworkResult.Success -> {
                     hideProgressBar()
                     response.let { response ->
-                        binding.animationView.visibility = View.INVISIBLE
 
-                        val imageList = response.data.flickr_images
-
-                        sliderAdapter.updateList(imageList as ArrayList<String>)
 
                         setDetail(response.data)
-                        binding.sliderIndicator.apply {
-
-                            setViewPager(binding.sliderViewPager)
-                        }
 
 
                     }
@@ -72,9 +80,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     fun init(view: View) {
 
+
         args.rocketId?.let { mViewModel.getOneRocket(it) }
         binding = FragmentDetailBinding.bind(view)
         sliderAdapter = SliderAdapter(arrayListOf())
+
+
 
         binding.sliderViewPager.apply {
             adapter = sliderAdapter
@@ -94,16 +105,26 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     }
 
     private fun setDetail(response: RocketResponse) {
-        binding.tvRocketName.text = "${response.rocket_name}"
+
+        binding.animationView.visibility = View.INVISIBLE
+
+        val imageList = response.flickr_images
+        sliderAdapter.updateList(imageList as ArrayList<String>)
+        binding.tvRocketName.text = response.rocket_name
         binding.status.text = if (response.active) "Status : Aktif" else "Status : Passive"
         binding.successRate.text = "Success rate pct: %${response.success_rate_pct}"
         binding.company.text = "Company : ${response.company}"
         binding.country.text = "Country : ${response.country}"
         binding.firstFlight.text = "First flight : ${response.first_flight}"
         binding.costPerLaunch.text = "Cost per launch : ${response.cost_per_launch} $"
-        binding.description.text = "${response.description}"
+        binding.description.text = response.description
         binding.diameter.text = "Diameter :${response.diameter.meters} m"
         binding.height.text = "Height : ${response.height.meters} m"
+
+        binding.sliderIndicator.apply {
+
+            setViewPager(binding.sliderViewPager)
+        }
 
 
     }
